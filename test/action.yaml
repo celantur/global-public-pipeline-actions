@@ -3,13 +3,6 @@ description: "Builds chain of celantur images"
   
 runs:
   using: composite
-  env:
-    ORG: ${{ github.event.inputs.organisation }}
-    REPO: ${{ github.event.inputs.repo }}
-    TOKEN: ${{ github.event.inputs.token }}
-    RUNNER: ${{ github.event.inputs.runner }}
-    EVENT_TYPE: ${{ github.event.inputs.event-type }}
-    ADDITIONAL_CLIENT_PAYLOAD: ${{ github.event.inputs.additional-client-payload }}
   steps:
     - name: "Info"
       shell: bash
