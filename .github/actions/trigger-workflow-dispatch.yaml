@@ -1,0 +1,45 @@
+name: 'Dispatch workflow'
+description: "Builds chain of celantur images"
+inputs:
+  organisation:
+    required: false
+    default: "celantur"
+    description: "Organisation name (probably celantur unless you are a traitor)"
+  repo:
+    required: true
+    description: "Repository name"
+  token:
+    required: true
+    description: "Personal access token for the user who has access to the repository"
+  runner:
+    required: true
+    description: "Runner name to be used in the workflow"
+  event-type:
+    required: true
+    description: "Event type to be dispatched"
+  additional-client-payload:
+    required: false
+    description: "Client payload to be sent with the event"
+  
+runs:
+  using: composite
+  env:
+    ORG: ${{ github.event.inputs.organisation }}
+    REPO: ${{ github.event.inputs.repo }}
+    TOKEN: ${{ github.event.inputs.token }}
+    RUNNER: ${{ github.event.inputs.runner }}
+    EVENT_TYPE: ${{ github.event.inputs.event-type }}
+    ADDITIONAL_CLIENT_PAYLOAD: ${{ github.event.inputs.additional-client-payload }}
+  steps:
+    - name: "Info"
+      shell: bash
+      run: |
+          response=$( curl -L \
+            -X POST \
+            -H "Accept: application/vnd.github+json" \
+            -H "Authorization: Bearer ${TOKEN}" \
+            -H "X-GitHub-Api-Version: 2022-11-28" \
+            https://api.github.com/repos/${ORG}/${REPO}/dispatches \
+            -d '{"event_type": ${EVENT_TYPE} ,"client_payload":{"runner": "${RUNNER}" }}' )
+          
+          echo $response
