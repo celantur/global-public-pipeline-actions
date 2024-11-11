@@ -23,16 +23,16 @@ inputs:
   
 runs:
   using: composite
-  env:
-    ORG: ${{ inputs.organisation }}
-    REPO: ${{ inputs.repo }}
-    TOKEN: ${{ inputs.token }}
-    RUNNER: ${{ inputs.runner }}
-    EVENT_TYPE: ${{ inputs.event-type }}
-    ADDITIONAL_CLIENT_PAYLOAD: ${{ inputs.additional-client-payload }}
   steps:
     - name: "Info"
       shell: bash
+      env:
+        ORG: ${{ inputs.organisation }}
+        REPO: ${{ inputs.repo }}
+        TOKEN: ${{ inputs.token }}
+        RUNNER: ${{ inputs.runner }}
+        EVENT_TYPE: ${{ inputs.event-type }}
+        ADDITIONAL_CLIENT_PAYLOAD: ${{ inputs.additional-client-payload }}
       run: |
           response=$( curl -L \
             -X POST \
